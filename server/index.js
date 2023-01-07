@@ -2,7 +2,6 @@ import express, { json } from "express"
 import mysql2 from "mysql2"
 
 const app = express()
-
 app.use(express.json())
 
 const db = mysql2.createConnection({
@@ -12,8 +11,9 @@ const db = mysql2.createConnection({
     database:"SDM"
 })
 app.get("/",(req,res)=>{
-    res.json("test")
+    res.sendFile(__dirname +'/frontend/index.html')
 })
+
 app.get("/login",(req,res)=>{
     const q = "select * from login"
     db.query(q,(err,data)=>{
