@@ -17,7 +17,7 @@ const db = mysql2.createConnection({
 })
 
 app.get("/",(req,res)=>{
-    res.render("index")
+    res.render("login")
 })
 
 app.get("/login",(req,res)=>{
