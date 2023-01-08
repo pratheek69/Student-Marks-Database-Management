@@ -1,13 +1,12 @@
-import express, { json } from "express"
-import mysql2 from "mysql2"
-import path from 'path'
+const express = require('express')
+const mysql2 = require('mysql2')
+const path = require('path')
 
 const app = express()
-
 app.use(express.json())
 
-const frontend =path.join(__dirname,'frontend')
-console.log(frontend);
+const frontend = path.join(__dirname,"../frontend")
+app.use(express.static(frontend))
 
 const db = mysql2.createConnection({
     host:"localhost",
@@ -17,7 +16,8 @@ const db = mysql2.createConnection({
 })
 
 app.get("/",(req,res)=>{
-    
+    console.log(__dirname)
+    res.sendFile(__dirname +"index.html")
 })
 
 app.get("/login",(req,res)=>{
@@ -35,6 +35,6 @@ app.post("/login",(req,res)=>{
         return res.json(data)
     })
 })
-app.listen(4000,() =>{
+app.listen(6969,() =>{
     console.log("Connection Sucessful");
 })
