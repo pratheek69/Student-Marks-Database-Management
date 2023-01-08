@@ -1,12 +1,13 @@
-const express = require('express')
-const mysql2 = require('mysql2')
-const path = require('path')
-
+import express, { json } from "express"
+import mysql2 from "mysql2"
 const app = express()
-app.use(express.json())
 
-const frontend = path.join(__dirname,"../frontend")
-app.use(express.static(frontend))
+//const frontend = path.join(__dirname,"../frontend")
+//app.use(express.static(frontend))
+//app.use(express.static(__dirname + ".."))
+app.use('/frontend',express.static('../frontend'))
+app.set("view engine", "hbs")
+app.set("views","../view")
 
 const db = mysql2.createConnection({
     host:"localhost",
@@ -16,8 +17,7 @@ const db = mysql2.createConnection({
 })
 
 app.get("/",(req,res)=>{
-    console.log(__dirname)
-    res.sendFile(__dirname +"index.html")
+    res.render("index")
 })
 
 app.get("/login",(req,res)=>{
