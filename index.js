@@ -1,7 +1,7 @@
 import express, { json } from "express"
-import mysql2 from "mysql2"
 const app = express()
-
+import {db} from "../server/db.js"
+// const db = require("./db")
 //const frontend = path.join(__dirname,"../frontend")
 //app.use(express.static(frontend))
 //app.use(express.static(__dirname + ".."))
@@ -9,15 +9,9 @@ app.use('/frontend',express.static('../frontend'))
 app.set("view engine", "hbs")
 app.set("views","../view")
 
-const db = mysql2.createConnection({
-    host:"localhost",
-    user:"root",
-    password:"test69",
-    database:"SDM"
-})
 
 app.get("/",(req,res)=>{
-    res.render("login")
+    res.render("student_login")
 })
 
 app.get("/login",(req,res)=>{
