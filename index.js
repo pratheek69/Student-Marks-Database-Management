@@ -1,13 +1,13 @@
 import express, { json } from "express"
 const app = express()
-import {db} from "../server/db.js"
+import {db} from "/DBMS/db.js"
 // const db = require("./db")
 //const frontend = path.join(__dirname,"../frontend")
 //app.use(express.static(frontend))
 //app.use(express.static(__dirname + ".."))
-app.use('/frontend',express.static('../frontend'))
+app.use('/public',express.static('public'))
 app.set("view engine", "hbs")
-app.set("views","../view")
+app.set("views","view")
 
 
 app.get("/",(req,res)=>{
