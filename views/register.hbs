@@ -18,7 +18,7 @@
                 <h2>Welcome to Our Student Marks Database Mangament System</h2>
                 <p>Please login to use the platform</p>
             </div>
-            <form class="login-form" action="/auth/login" method="POST" autocomplete="off">
+            <form class="login-form" action="/auth/register" method="POST" autocomplete="off">
                 <div class="login-form-content">
                     <div class="form-item">
                         <label for="emailForm">User Name</label>
@@ -27,6 +27,10 @@
                     <div class="form-item">
                         <label for="passwordForm">Password</label>
                         <input type="password" id="passwordForm" name="password">
+                    </div>
+                    <div class="form-item">
+                        <label for="passwordForm">Confirm Password</label>
+                        <input type="password" id="passwordForm" name="passwordConfirm">
                     </div>
                     <button type="submit">Sign In</button>
                     </div>
