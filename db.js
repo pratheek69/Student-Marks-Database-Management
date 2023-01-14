@@ -1,4 +1,4 @@
-const mysql2 = require('mysql2')
+const mysql2 = require("mysql2")
 
 
 const db = mysql2.createConnection({
@@ -8,3 +8,4 @@ const db = mysql2.createConnection({
     database:"SDM"
 })
 
+module.exports = db;
