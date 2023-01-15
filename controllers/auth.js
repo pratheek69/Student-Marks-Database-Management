@@ -8,7 +8,7 @@ exports.register = (req,res)=>{
 
     const{name,password,passwordConfirm} = req.body
 
-    db.query('select name from users where name =?',[name],(error,results)=>{
+    db.query('select name from users where name =?',[name],async (error,results)=>{
         if(error){
             console.log(error)
         }
@@ -18,7 +18,16 @@ exports.register = (req,res)=>{
         else if(password!==passwordConfirm) {
             return res.render("register",{message:"Passwords dont Match"})
         }
+        let hashedPassword = await bcrypt.hash(password,12)
 
+        db.query('insert into users set ?',{name:name,password:hashedPassword},(error,results)=>{
+            if(error){
+                console.log(error);
+                }
+            else{
+                return res.render("register",{message:"User registered"})
+                }
+        })
     })
 }
 
@@ -49,28 +58,34 @@ exports.login = async (req,res)=>{
         
         db.query("select * from users where name = ?",[name], async(error,results)=>{
             console.log(results);
-            console.log(await bcrypt.compare(password, results[0].password))
-            console.log(password)
-            console.log(results[0].password)
+            // console.log(await bcrypt.compare(password, results[0].password))
+            // console.log(password)
+            // console.log(results[0].password)
             if(!results || !(await bcrypt.compare(password, results[0].password))){
                 res.status(401).render("login",{message:"Email or Password is incorrect"})
             }
-            else{
-                const name = results[0].name;
-                const token=jwt.sign({name},testpassword,{
-                    expiresIn:90
-                })
-                console.log(token)
-
-                const cookie ={
-                    expire: new Date(
-                        Date.now +90*24*60*60*1000
-                    ),
-                    httpOnly:true
+            else {
+                const id = results[0].name;
+        
+                const token = jwt.sign({id}, process.env.JWT_SECREATE, {
+                  expiresIn: process.env.JWT_EXPIRES_IN
+                });
+        
+                console.log("The token is: " + token);
+        
+                const cookieOptions = {
+                  expires: new Date(
+                    Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+                  ),
+                  httpOnly: true
                 }
-                res.cookie("jwt", token,cookie)
-                res.status(200).redirect("/");
-            }
+        
+                res.cookie('jwt', token, cookieOptions );
+                // res.status(200).redirect("/");
+                return res.status(400).render("login",{
+                    message:"Logged In"
+                })
+              }
         })
         
         } 
