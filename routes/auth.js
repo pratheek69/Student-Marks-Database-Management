@@ -11,5 +11,5 @@ router.post('/login', authController.login)
 // router.get("/faculty",(req,res)=>{
 //     res.render("faculty_dash")
 // })
-
+router.get('/logout',authController.logout)
 module.exports = router;

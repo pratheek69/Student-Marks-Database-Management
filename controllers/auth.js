@@ -1,6 +1,42 @@
 const db = require("../db")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const {promisify} = require("util")
+
+exports.logout = async(req,res)=>{
+    res.cookie("jwt","logout",{
+        expires:new Date(Date.now()+2*1000),
+        httpOnly:true
+    })
+    res.status(200).redirect('/')
+}
+
+exports.isLoggedIn= async (req,res,next)=>{
+    if(req.cookies.jwt)
+    try {
+        const decoded = await promisify(jwt.verify)(req.cookies.jwt,process.env.JWT_SECREATE)
+
+        db.query("select * from users where name = ?",[decoded.id],(error,results)=>{
+            if(!results){
+                return next()
+            }
+    
+            req.users=results[0];
+            return next()
+        })
+        
+        
+
+    } catch (error) {
+        console.log(error)
+        return next()
+    }
+    else{
+        next();
+    }
+    
+}
+
 
 
 exports.register = (req,res)=>{
@@ -57,11 +93,11 @@ exports.login = async (req,res)=>{
         }
         
         db.query("select * from users where name = ?",[name], async(error,results)=>{
-            console.log(results);
+            
             // console.log(await bcrypt.compare(password, results[0].password))
             // console.log(password)
             // console.log(results[0].password)
-            if(!results || !(await bcrypt.compare(password, results[0].password))){
+            if( !results[0] || !(await bcrypt.compare(password, results[0].password))){
                 res.status(401).render("login",{message:"Email or Password is incorrect"})
             }
             else {
@@ -71,7 +107,7 @@ exports.login = async (req,res)=>{
                   expiresIn: process.env.JWT_EXPIRES_IN
                 });
         
-                console.log("The token is: " + token);
+                
         
                 const cookieOptions = {
                   expires: new Date(
@@ -81,10 +117,7 @@ exports.login = async (req,res)=>{
                 }
         
                 res.cookie('jwt', token, cookieOptions );
-                // res.status(200).redirect("/");
-                return res.status(400).render("login",{
-                    message:"Logged In"
-                })
+                 res.status(200).redirect("/student");
               }
         })
         
