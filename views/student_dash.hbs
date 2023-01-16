@@ -15,25 +15,24 @@
         <button > 
             <a href="/auth/logout">logout</a>
         </button>
-    <h3>Name : </h3>
-    <h3>USN : {{users.name}}</h3>
+    <h3>Name : {{users.name}}</h3>
+    <h3>USN : {{users.usn}}</h3>
 
     <table border="10" cellspacing="0">
         <thead>
-         
+        
                 <th rowspan="2">Subject code</th>
-
         
                 <th colspan="3">Marks</th>
             <tr> 
-                 <th>IA 1</th>
+                <th>IA 1</th>
                 <th>IA 2</th>
                 <th>IA 3</th>
             </tr>
             <tr>
                 <th>18CS51</th>
-                <th></th>
-                <th></th>
+                <th>{{users.usn}}</th>
+                <th>3000</th>
                 <th></th>
             </tr>
             <tr>

@@ -16,27 +16,24 @@
         <div class="login">
             <div class="login-header">
                 <h2>Welcome to Our Student Marks Database Mangament System</h2>
+                <h3 >Student PANEL</h3>
                 <p>Please login to use the platform</p>
             </div>
-            <form class="login-form" action="/auth/register" method="POST" autocomplete="off">
+            <form class="login-form" action="/auth/student_login" method="POST" autocomplete="off">
                 <div class="login-form-content">
                     <div class="form-item">
-                        <label for="emailForm">User Name</label>
-                        <input type="USN" id="emailForm" name="name">
+                        <label for="emailForm">USN</label>
+                        <input type="USN" id="emailForm" name="usn">
                     </div>
                     <div class="form-item">
                         <label for="passwordForm">Password</label>
                         <input type="password" id="passwordForm" name="password">
                     </div>
-                    <div class="form-item">
-                        <label for="passwordForm">Confirm Password</label>
-                        <input type="password" id="passwordForm" name="passwordConfirm">
-                    </div>
                     <button type="submit">Sign In</button>
                     </div>
             </form>
             {{#if message}}
-            <h5 class="alert alert-danger mt-6">{{message}}</h5>
+            <h5 class="alert alert-danger mt-2">{{message}}</h5>
             {{/if}}
         </div>
         

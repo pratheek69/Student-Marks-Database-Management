@@ -100,7 +100,7 @@ input[type=usn]:focus {
 button {
   border: none;
   background: linear-gradient(45deg, #131086, #b621f3);
-  color: white;
+  color: rgb(190, 70, 70);
   padding: 1rem;
   border-radius: 100px;
   text-align: center;
