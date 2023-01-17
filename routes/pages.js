@@ -1,4 +1,5 @@
 const express = require("express")
+const db = require("../db")
 const router = express.Router();
 const authController = require("../controllers/auth")
 
@@ -41,8 +42,19 @@ router.get("/admin_dash",authController.isLoggedInA,(req,res)=>{
         res.redirect("/")
     }
 })
-router.get("/faculty",(req,res)=>{
-    res.render("faculty_dash")
+
+router.get("/admin_marks",authController.isLoggedInA,(req,res)=>{
+    db.query("select * from marks",async(error,rows)=>{
+                    if(!error){
+                        res.render("admin_marks",{rows})
+                        
+                    }
+                    else{
+                        console.log(error)
+                    }
+                    
+                    console.log(rows)
+                })
 })
 
 module.exports = router
