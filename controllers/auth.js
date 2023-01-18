@@ -4,23 +4,23 @@ const jwt = require("jsonwebtoken")
 const {promisify} = require("util")
 
 
-// exports.admin_marks = async (req,res)=>{
-//         console.log("running")
-//         db.query("select * from marks",async(error,rows)=>{
-//             if(!error){
-//                 res.render("admin_marks",{rows})
+exports.admin_marks = async (req,res)=>{
+        console.log("running")
+        const{sec} = req.body
+        console.log(sec)
+        db.query("select * from marks where sec=?",[sec],async(error,rows)=>{
+            if(!error){
+                res.render("admin_marks",{rows})
                 
-//             }
-//             else{
-//                 console.log(error)
-//             }
-            
-//             console.log(rows)
-//         })
+            }
+            else{
+                console.log(error)
+            }
+        })
 
     
 
-// }
+}
 exports.logout = async(req,res)=>{
     res.cookie("jwt","logout",{
         expires:new Date(Date.now()+2*1000),
@@ -97,7 +97,7 @@ exports.registerS = (req,res)=>{
         let hashedPassword = await bcrypt.hash(password,12)
 
         db.query('insert into student set ?',{name:name,usn:usn,sec:sec,password:hashedPassword},(error,results)=>{
-            db.query('insert into marks set ?',{usn:usn,},(error,results)=>{
+            db.query('insert into marks set ?',{usn:usn,sec:sec},(error,results)=>{
             if(error){
                 console.log(error);
                 }

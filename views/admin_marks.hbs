@@ -64,6 +64,14 @@
       </th>
     </tbody>
   </table> -->
+<form  id="tableForm" method="post" action="/auth/admin_marks">
+  <select name="sec" action="/admin_marks" class="form-select w-25 p-3" aria-label="Default select example">
+    {{#each section}}
+    <option value="{{this.sec}}">{{this.sec}}</option>
+      {{/each}}
+  </select>
+  <button type="#" class="btn btn-dark">Search</button>
+</form>
 
   
 <table class="table table-bordered mt-5">

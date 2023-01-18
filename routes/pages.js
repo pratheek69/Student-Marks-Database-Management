@@ -37,6 +37,7 @@ router.get("/student_dash",authController.isLoggedInS,(req,res)=>{
 router.get("/admin_dash",authController.isLoggedInA,(req,res)=>{
     if(req.users){
         res.render("admin_dash",{users:req.users})
+        
     }
     else{
         res.redirect("/")
@@ -44,17 +45,20 @@ router.get("/admin_dash",authController.isLoggedInA,(req,res)=>{
 })
 
 router.get("/admin_marks",authController.isLoggedInA,(req,res)=>{
-    db.query("select * from marks",async(error,rows)=>{
+
+    db.query("select sec from marks ",async(error,section)=>{
                     if(!error){
-                        res.render("admin_marks",{rows})
+                        res.render("admin_marks",{section})
                         
                     }
                     else{
                         console.log(error)
                     }
                     
-                    console.log(rows)
+                    
                 })
+        
 })
+
 
 module.exports = router

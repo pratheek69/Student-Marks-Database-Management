@@ -11,7 +11,7 @@ router.post('/admin_login', authController.admin_login)
 // router.get("/faculty",(req,res)=>{
 //     res.render("faculty_dash")
 // })
-// router.get('/admin_marks',authController.admin_marks)
+router.post('/admin_marks',authController.admin_marks)
 
 router.post('/student_register', authController.registerS)
 
