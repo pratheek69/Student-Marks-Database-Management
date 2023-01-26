@@ -4,11 +4,64 @@ const jwt = require("jsonwebtoken")
 const {promisify} = require("util")
 
 
+exports.delete = async (req,res)=>{
+   
+
+    db.query("delete from courses where usn= ?",[req.params.usn],async(error,rows)=>{
+        if(!error){
+            db.query("delete from student where usn= ?",[req.params.usn],async(error,rows)=>{
+
+                console.log("deleteing")
+                if(!error){
+                    res.render("admin_marks")
+                    
+                }
+                else{
+                    console.log(error)
+                }
+            })
+        }
+        else{
+            console.log(error)
+        }
+    })
+
+}
+
+exports.update = async (req,res)=>{
+    const{CS51_IA1,CS51_IA2,CS51_IA3,CS52_IA1,CS52_IA2,CS52_IA3,CS53_IA1,CS53_IA2,CS53_IA3,CS54_IA1,CS54_IA2,CS54_IA3,CS55_IA1,CS55_IA2,CS55_IA3,CS56_IA1,CS56_IA2,CS56_IA3}= req.body
+
+    db.query("update courses set CS51_IA1 = ?,CS51_IA2 = ?,CS51_IA3 = ?,CS52_IA1 = ?,CS52_IA2 = ?,CS52_IA3 = ?,CS53_IA1 = ?,CS53_IA2 = ?,CS53_IA3 = ?,CS54_IA1 = ?,CS54_IA2 = ?,CS54_IA3 = ?,CS55_IA1 = ?,CS55_IA2 = ?,CS55_IA3 = ?,CS56_IA1 = ?,CS56_IA2 = ?,CS56_IA3 = ? where usn=?",[CS51_IA1,CS51_IA2,CS51_IA3,CS52_IA1,CS52_IA2,CS52_IA3,CS53_IA1,CS53_IA2,CS53_IA3,CS54_IA1,CS54_IA2,CS54_IA3,CS55_IA1,CS55_IA2,CS55_IA3,CS56_IA1,CS56_IA2,CS56_IA3,req.params.usn],async(error,rows)=>{
+        if(!error){
+            res.render("edit_marks",{rows,alert:"MARKS HAS BEEN UPDATED"})
+            
+        }
+        else{
+            console.log(error)
+        }
+    })
+
+}
+
+exports.edit = async (req,res)=>{
+
+    db.query("select * from courses where usn=?",[req.params.usn],async(error,rows)=>{
+        if(!error){
+            res.render("edit_marks",{rows})
+            
+        }
+        else{
+            console.log(error)
+        }
+    })
+
+}
+
 exports.admin_marks = async (req,res)=>{
         console.log("running")
         const{sec} = req.body
         console.log(sec)
-        db.query("select * from marks where sec=?",[sec],async(error,rows)=>{
+        db.query("select * from courses where sec=?",[sec],async(error,rows)=>{
             if(!error){
                 res.render("admin_marks",{rows})
                 
@@ -58,7 +111,7 @@ exports.isLoggedInA= async (req,res,next)=>{
     try {
         const decoded = await promisify(jwt.verify)(req.cookies.jwt,process.env.JWT_SECREATE)
 
-        db.query("select * from admin where admin_name = ?",[decoded.id],(error,results)=>{
+        db.query("select * from faculty where faculty_name = ?",[decoded.id],(error,results)=>{
             if(!results){
                 return next()
             }
@@ -97,7 +150,7 @@ exports.registerS = (req,res)=>{
         let hashedPassword = await bcrypt.hash(password,12)
 
         db.query('insert into student set ?',{name:name,usn:usn,sec:sec,password:hashedPassword},(error,results)=>{
-            db.query('insert into marks set ?',{usn:usn,sec:sec},(error,results)=>{
+            db.query('insert into courses set ?',{usn:usn,sec:sec},(error,results)=>{
             if(error){
                 console.log(error);
                 }
@@ -110,23 +163,22 @@ exports.registerS = (req,res)=>{
 }
 
 exports.registerA = (req,res)=>{
-    console.log(req.body);
-
+    console.log(req.body);{}
     const{admin_name,name,password,passwordConfirm} = req.body
 
-    db.query('select admin_name from admin where admin_name =?',[admin_name],async (error,results)=>{
+    db.query('select faculty_name from faculty where faculty_name =?',[admin_name],async (error,results)=>{
         if(error){
             console.log(error)
         }
         if(results.length > 0){
-            return res.render("admin_register",{message:"Admin Name Already in Use"})
+            return res.render("admin_register",{message:"Faculty Name Already in Use"})
         }
         else if(password!==passwordConfirm) {
             return res.render("admin_register",{message:"Passwords dont Match"})
         }
         let hashedPassword = await bcrypt.hash(password,12)
 
-        db.query('insert into admin set ?',{admin_name:admin_name,name:name,password:hashedPassword},(error,results)=>{
+        db.query('insert into faculty set ?',{faculty_name:admin_name,name:name,password:hashedPassword},(error,results)=>{
             if(error){
                 console.log(error);
                 }
@@ -150,7 +202,7 @@ exports.admin_login = async (req,res)=>{
             })
         }
         
-        db.query("select * from admin where admin_name = ?",[admin_name], async(error,results)=>{
+        db.query("select * from faculty where faculty_name = ?",[admin_name], async(error,results)=>{
             
             // console.log(await bcrypt.compare(password, results[0].password))
             // console.log(password)
@@ -159,7 +211,7 @@ exports.admin_login = async (req,res)=>{
                 res.status(401).render("admin_login",{message:"Email or Password is incorrect"})
             }
             else {
-                const id = results[0].admin_name;
+                const id = results[0].faculty_name;
         
                 const token = jwt.sign({id}, process.env.JWT_SECREATE, {
                 expiresIn: process.env.JWT_EXPIRES_IN

@@ -11,6 +11,11 @@ router.post('/admin_login', authController.admin_login)
 // router.get("/faculty",(req,res)=>{
 //     res.render("faculty_dash")
 // })
+
+router.post('/edit_marks/:usn',authController.update)
+
+router.get('/delete/:usn',authController.delete)
+
 router.post('/admin_marks',authController.admin_marks)
 
 router.post('/student_register', authController.registerS)

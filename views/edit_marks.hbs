@@ -1,0 +1,138 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/admin_dash">DashBoard</a></li>
+    <li class="breadcrumb-item"><a href="/admin_marks">Marks Update</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Edit Marks</li>
+  </ol>
+</nav>
+
+{{#if alert}}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{alert}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{{/if}}
+    
+{{#each rows}}
+<h3>USN : {{this.usn}}</h3>
+<form class="row g-3 needs-validation" method="POST" action="/auth/edit_marks/{{this.usn}}" novalidate> 
+    <h5>18CS51</h5>
+    <div class="col-4">
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="floatingInput" value="{{this.CS51_IA1}}" placeholder="First Name" name="CS51_IA1">
+      <label for="floatingInput"> IA1</label>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="floatingInput" value="{{this.CS51_IA2}}" placeholder="Last Name" name="CS51_IA2">
+      <label for="floatingInput">IA2</label>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="form-floating mb-3">
+      <input type="email" class="form-control" id="floatingInput" value="{{this.CS51_IA3}}" placeholder="email@email.com" name="CS51_IA3">
+      <label for="floatingInput">IA3</label>
+    </div>
+  </div>
+  <h5>18CS52</h5>
+  <div class="col-4">
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="floatingInput" value="{{this.CS52_IA1}}" placeholder="First Name" name="CS52_IA1">
+      <label for="floatingInput">IA1</label>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="floatingInput" value="{{this.CS52_IA2}}" placeholder="Last Name" name="CS52_IA2">
+      <label for="floatingInput">IA2</label>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="form-floating mb-3">
+      <input type="email" class="form-control" id="floatingInput" value="{{this.CS52_IA3}}" placeholder="email@email.com" name="CS52_IA3">
+      <label for="floatingInput">IA3</label>
+    </div>
+  </div>
+  <h5>18CS53</h5>
+  <div class="col-4">
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="floatingInput" value="{{this.CS53_IA1}}" placeholder="First Name" name="CS53_IA1">
+      <label for="floatingInput">IA1</label>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="floatingInput" value="{{this.CS53_IA2}}" placeholder="Last Name" name="CS53_IA2">
+      <label for="floatingInput">IA2</label>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="form-floating mb-3">
+      <input type="email" class="form-control" id="floatingInput" value="{{this.CS53_IA3}}" placeholder="email@email.com" name="CS53_IA3">
+      <label for="floatingInput">IA3</label>
+    </div>
+  </div>
+  <h5>18CS54</h5>
+  <div class="col-4">
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="floatingInput" value="{{this.CS54_IA1}}" placeholder="First Name" name="CS54_IA1">
+      <label for="floatingInput">IA1</label>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="floatingInput" value="{{this.CS54_IA2}}" placeholder="Last Name" name="CS54_IA2">
+      <label for="floatingInput">IA2</label>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="form-floating mb-3">
+      <input type="email" class="form-control" id="floatingInput" value="{{this.CS54_IA3}}" placeholder="email@email.com" name="CS54_IA3">
+      <label for="floatingInput">IA3</label>
+    </div>
+  </div>
+  <h5>18CS55</h5>
+  <div class="col-4">
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="floatingInput" value="{{this.CS55_IA1}}" placeholder="First Name" name="CS55_IA1">
+      <label for="floatingInput">IA1</label>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="floatingInput" value="{{this.CS55_IA2}}" placeholder="Last Name" name="CS55_IA2">
+      <label for="floatingInput">IA2</label>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="form-floating mb-3">
+      <input type="email" class="form-control" id="floatingInput" value="{{this.CS55_IA3}}" placeholder="email@email.com" name="CS55_IA3">
+      <label for="floatingInput">IA3</label>
+    </div>
+  </div>
+  <h5>18CS56</h5>
+  <div class="col-4">
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="floatingInput" value="{{this.CS56_IA1}}" placeholder="First Name" name="18CS56_IA1">
+      <label for="floatingInput">IA1</label>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="floatingInput" value="{{this.CS56_IA2}}" placeholder="Last Name" name="18CS56_IA2">
+      <label for="floatingInput">IA2</label>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="form-floating mb-3">
+      <input type="email" class="form-control" id="floatingInput" value="{{this.CS56_IA3}}" placeholder="email@email.com" name="18CS56_IA3">
+      <label for="floatingInput">IA3</label>
+    </div>
+  </div>
+  <div class="col-12 d-grid">
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </div>
+</form>
+{{/each}}

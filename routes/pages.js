@@ -24,6 +24,13 @@ router.get('/admin_register',(req,res)=>{
     res.render("admin_register")
 })
 
+router.get('/edit_marks/:usn',authController.edit,(req,res)=>{
+    res.render("edit_marks")
+})
+
+router.get('/delete/:usn',authController.delete,(req,res)=>{
+    
+})
 
 router.get("/student_dash",authController.isLoggedInS,(req,res)=>{
     if(req.users){
@@ -46,17 +53,24 @@ router.get("/admin_dash",authController.isLoggedInA,(req,res)=>{
 
 router.get("/admin_marks",authController.isLoggedInA,(req,res)=>{
 
-    db.query("select sec from marks ",async(error,section)=>{
-                    if(!error){
-                        res.render("admin_marks",{section})
+    
+                if(req.users){
+                    db.query("select sec from courses ",async(error,section)=>{
+                        if(!error){
+                            res.render("admin_marks",{section})
+                            
+                        }
+                        else{
+                            console.log(error)
+                        }
                         
-                    }
-                    else{
-                        console.log(error)
-                    }
+                        
+                    })
                     
-                    
-                })
+                }
+                else{
+                    res.redirect("/")
+                }
         
 })
 
