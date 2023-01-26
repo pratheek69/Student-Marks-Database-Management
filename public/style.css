@@ -2,11 +2,7 @@
 * {
   box-sizing: border-box;
 }
-table {
-  display: block;
-  overflow-x: auto;
-  white-space: nowrap;
-}
+
 
 body {
   padding: 0;

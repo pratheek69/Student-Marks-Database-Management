@@ -10,16 +10,21 @@ exports.delete = async (req,res)=>{
     db.query("delete from courses where usn= ?",[req.params.usn],async(error,rows)=>{
         if(!error){
             db.query("delete from student where usn= ?",[req.params.usn],async(error,rows)=>{
+                db.query("delete from ia1 where usn= ?",[req.params.usn],async(error,rows)=>{
+                    db.query("delete from ia2 where usn= ?",[req.params.usn],async(error,rows)=>{
+                        db.query("delete from ia3 where usn= ?",[req.params.usn],async(error,rows)=>{
 
-                console.log("deleteing")
-                if(!error){
-                    res.render("admin_marks")
-                    
-                }
-                else{
-                    console.log(error)
-                }
+                        })
+                    })
+                })
             })
+            if(!error){
+                res.render("admin_marks")
+                
+            }
+            else{
+                console.log(error)
+            }
         }
         else{
             console.log(error)
@@ -33,6 +38,14 @@ exports.update = async (req,res)=>{
 
     db.query("update courses set CS51_IA1 = ?,CS51_IA2 = ?,CS51_IA3 = ?,CS52_IA1 = ?,CS52_IA2 = ?,CS52_IA3 = ?,CS53_IA1 = ?,CS53_IA2 = ?,CS53_IA3 = ?,CS54_IA1 = ?,CS54_IA2 = ?,CS54_IA3 = ?,CS55_IA1 = ?,CS55_IA2 = ?,CS55_IA3 = ?,CS56_IA1 = ?,CS56_IA2 = ?,CS56_IA3 = ? where usn=?",[CS51_IA1,CS51_IA2,CS51_IA3,CS52_IA1,CS52_IA2,CS52_IA3,CS53_IA1,CS53_IA2,CS53_IA3,CS54_IA1,CS54_IA2,CS54_IA3,CS55_IA1,CS55_IA2,CS55_IA3,CS56_IA1,CS56_IA2,CS56_IA3,req.params.usn],async(error,rows)=>{
         if(!error){
+            const usn = req.params.usn
+            db.query("update ia1 set 18CS51=?,18CS52=?,18CS53=?,18CS54=?,18CS55=?,18CS56=? where usn= ?",[CS51_IA1,CS52_IA1,CS53_IA1,CS54_IA1,CS55_IA1,CS56_IA1,req.params.usn],async(error,rows)=>{
+                db.query("update ia2 set 18CS51=?,18CS52=?,18CS53=?,18CS54=?,18CS55=?,18CS56=? where usn= ?",[CS51_IA2,CS52_IA2,CS53_IA2,CS54_IA2,CS55_IA2,CS56_IA2,req.params.usn],async(error,rows)=>{
+                    db.query("update ia3 set 18CS51=?,18CS52=?,18CS53=?,18CS54=?,18CS55=?,18CS56=? where usn= ?",[CS51_IA3,CS52_IA3,CS53_IA3,CS54_IA3,CS55_IA3,CS56_IA3,req.params.usn],async(error,rows)=>{
+
+                    })
+                })
+            })
             res.render("edit_marks",{rows,alert:"MARKS HAS BEEN UPDATED"})
             
         }
@@ -151,12 +164,18 @@ exports.registerS = (req,res)=>{
 
         db.query('insert into student set ?',{name:name,usn:usn,sec:sec,password:hashedPassword},(error,results)=>{
             db.query('insert into courses set ?',{usn:usn,sec:sec},(error,results)=>{
-            if(error){
-                console.log(error);
-                }
-            else{
-                return res.render("student_register",{message:"User registered"})
-                }
+                db.query('insert into ia1 set ?',{usn:usn},(error,results)=>{
+                    db.query('insert into ia2 set ?',{usn:usn},(error,results)=>{
+                        db.query('insert into ia3 set ?',{usn:usn},(error,results)=>{
+                            if(error){
+                                console.log(error);
+                                }
+                            else{
+                                return res.render("student_register",{message:"User registered"})
+                                }
+                        })
+                    }) 
+                })
             })
         })
     })
@@ -273,23 +292,34 @@ exports.student_login = async (req,res)=>{
                 res.status(401).render("student_login",{message:"Email or Password is incorrect"})
             }
             else {
+                db.query("select * from courses where usn= ?",[usn],async(error,rows)=>{
+
+                    console.log("deleteing")
+                    if(!error){
+                        const token = jwt.sign({id}, process.env.JWT_SECREATE, {
+                            expiresIn: process.env.JWT_EXPIRES_IN
+                          });
+                  
+                          
+                  
+                          const cookieOptions = {
+                            expires: new Date(
+                              Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+                            ),
+                            httpOnly: true
+                          }
+                  
+                        res.cookie('jwt', token, cookieOptions );
+                        res.render("student_dash",{rows,users:req.users});
+                        console.log(rows)
+                        }
+                    else{
+                        console.log(error)
+                    }
+                })
                 const id = results[0].usn;
         
-                const token = jwt.sign({id}, process.env.JWT_SECREATE, {
-                  expiresIn: process.env.JWT_EXPIRES_IN
-                });
-        
                 
-        
-                const cookieOptions = {
-                  expires: new Date(
-                    Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-                  ),
-                  httpOnly: true
-                }
-        
-                res.cookie('jwt', token, cookieOptions );
-                 res.status(200).redirect("/student_dash");
               }
         })
         

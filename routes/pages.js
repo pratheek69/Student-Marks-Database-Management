@@ -16,12 +16,24 @@ router.get('/admin_login',(req,res)=>{
     })
     
 
-router.get('/student_register',(req,res)=>{
-    res.render("student_register")
+router.get('/student_register',authController.isLoggedInA,(req,res)=>{
+    if(req.users){
+        res.render("student_register",{users:req.users})
+        
+    }
+    else{
+        res.redirect("/")
+    }
 })
 
-router.get('/admin_register',(req,res)=>{
-    res.render("admin_register")
+router.get('/admin_register',authController.isLoggedInA,(req,res)=>{
+    if(req.users){
+        res.render("admin_register",{users:req.users})
+        
+    }
+    else{
+        res.redirect("/")
+    }
 })
 
 router.get('/edit_marks/:usn',authController.edit,(req,res)=>{
